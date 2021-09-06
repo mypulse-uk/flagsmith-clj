@@ -1,7 +1,13 @@
 (ns flagsmith-clj.core-test
-  (:require [clojure.test :refer :all]
-            [flagsmith-clj.core :refer :all]))
+  (:require
+    [clojure.test :refer :all]
+    [flagsmith-clj.core :as flagsmith])
+  (:import
+    (com.flagsmith
+      FlagsmithClient)))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+
+(deftest initialization
+  (testing "generates a new client"
+    (is (= FlagsmithClient
+           (type (flagsmith/new-client "someKey"))))))

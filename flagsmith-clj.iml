@@ -14,9 +14,23 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Leiningen: clojure-complete:0.2.5" level="project" />
+    <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.core/jackson-annotations:2.12.1" level="project" />
+    <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.core/jackson-core:2.12.1" level="project" />
+    <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.core/jackson-databind:2.12.1" level="project" />
+    <orderEntry type="library" name="Leiningen: com.flagsmith/flagsmith-java-client:3.1" level="project" />
+    <orderEntry type="library" name="Leiningen: com.github.ben-manes.caffeine/caffeine:2.9.0" level="project" />
+    <orderEntry type="library" name="Leiningen: com.google.errorprone/error_prone_annotations:2.5.1" level="project" />
+    <orderEntry type="library" name="Leiningen: com.squareup.okhttp3/okhttp:4.9.0" level="project" />
+    <orderEntry type="library" name="Leiningen: com.squareup.okio/okio:2.8.0" level="project" />
     <orderEntry type="library" name="Leiningen: nrepl:0.6.0" level="project" />
+    <orderEntry type="library" name="Leiningen: org.apache.commons/commons-lang3:3.12.0" level="project" />
+    <orderEntry type="library" name="Leiningen: org.checkerframework/checker-qual:3.10.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.10.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/core.specs.alpha:0.2.44" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/spec.alpha:0.2.176" level="project" />
+    <orderEntry type="library" name="Leiningen: org.jetbrains.kotlin/kotlin-stdlib-common:1.4.0" level="project" />
+    <orderEntry type="library" name="Leiningen: org.jetbrains.kotlin/kotlin-stdlib:1.4.10" level="project" />
+    <orderEntry type="library" name="Leiningen: org.jetbrains/annotations:13.0" level="project" />
+    <orderEntry type="library" name="Leiningen: org.slf4j/slf4j-api:1.7.30" level="project" />
   </component>
 </module>

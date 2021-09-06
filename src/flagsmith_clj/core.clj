@@ -1,6 +1,12 @@
-(ns flagsmith-clj.core)
+(ns flagsmith-clj.core
+  (:import
+    com.flagsmith.FlagsmithClient))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+
+(defn new-client
+  "Creates a new flagsmith client using the given api-key"
+  [api-key]
+  (->
+    (FlagsmithClient/newBuilder)
+    (.setApiKey api-key)
+    (.build)))
