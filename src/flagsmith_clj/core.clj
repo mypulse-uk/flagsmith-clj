@@ -1,20 +1,34 @@
 (ns flagsmith-clj.core
   (:import
-    com.flagsmith.FlagsmithClient))
+    (com.flagsmith
+      Feature
+      Flag
+      FlagsmithClient)))
 
 
 (defn- add-base-uri-if-available
-  [client value]
+  [^FlagsmithClient client
+   value]
   (if value
     (.withApiUrl client value)
     client))
 
 
 (defn- enable-logging
-  [client logging-enabled]
+  [^FlagsmithClient client logging-enabled]
   (if logging-enabled
     (.enableLogging client)
     client))
+
+
+(defn- flag->map
+  [^Flag flag]
+  (let [^Feature feature (.getFeature flag)]
+    {:feature-name (keyword (.getName feature))
+     :type         (.getType feature)
+     :description  (.getDescription feature)
+     :state-value  (.getStateValue flag)
+     :enabled      (.isEnabled flag)}))
 
 
 (defn new-client
@@ -31,7 +45,13 @@
        (.build)))))
 
 
+(defn get-flags
+  "Retrieves list of all flags"
+  [^FlagsmithClient client]
+  (map flag->map (.getFeatureFlags client)))
+
+
 (defn has-feature
   "Retrieves value of a given feature"
-  [client feature]
+  [^FlagsmithClient client feature]
   (.hasFeatureFlag client (name feature)))
