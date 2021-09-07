@@ -23,17 +23,18 @@
       (is (= FlagsmithClient
              (type (flagsmith/new-client api-key)))))
 
-    (testing "generates a new client with different base-uri"
+    (testing "generates a new client with options"
       (is (= FlagsmithClient
-             (type (flagsmith/new-client api-key {:base-uri wiremock-url}))))))
+             (type (flagsmith/new-client api-key {:base-uri        wiremock-url
+                                                  :logging-enabled true})))))
 
-  (deftest has-feature
-    (wmk/with-stubs
-      [{:req [:GET (str "/flags/?page=1")]
-        :res [200 {:body (json/write-value-as-string [(utils/create-feature :existing-feature true)])}]}]
-      (let [client (flagsmith/new-client api-key {:base-uri wiremock-url})]
-        (testing "has feature"
-          (is (true? (flagsmith/has-feature client :existing-feature))))
+    (deftest has-feature
+      (wmk/with-stubs
+        [{:req [:GET (str "/flags/?page=1")]
+          :res [200 {:body (json/write-value-as-string [(utils/create-feature :existing-feature true)])}]}]
+        (let [client (flagsmith/new-client api-key {:base-uri wiremock-url})]
+          (testing "has feature"
+            (is (true? (flagsmith/has-feature client :existing-feature))))
 
-        (testing "does not have feature"
-          (is (false? (flagsmith/has-feature client :missing-feature))))))))
+          (testing "does not have feature"
+            (is (false? (flagsmith/has-feature client :missing-feature)))))))))
