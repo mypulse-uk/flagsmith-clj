@@ -14,7 +14,7 @@
 (def wiremock-port (get-free-port!))
 (def wiremock-url (str "http://localhost:" wiremock-port))
 
-(use-fixtures :once (partial wmk/wiremock-fixture {:port wiremock-port}))
+(use-fixtures :once (partial wmk/wiremock-fixture [{:port wiremock-port}]))
 
 
 (let [api-key "someKey"]
