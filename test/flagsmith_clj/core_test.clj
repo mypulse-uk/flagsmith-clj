@@ -30,7 +30,7 @@
 
   (deftest has-feature
     (wmk/with-stubs
-      [{:req [:GET (str "/flags/?page=1")]
+      [{:req [:GET (str "/flags/")]
         :res [200 {:body (json/write-value-as-string [(utils/create-feature
                                                         {:feature-name :existing-feature
                                                          :enabled      true})])}]}]
@@ -44,18 +44,14 @@
   (deftest get-flags
     (let [feature-1 {:feature-name :feature-1
                      :enabled      true
-                     :type         "string"
-                     :description  "A fancy feature"
                      :state-value  "Experiment A"}
           feature-2 {:feature-name :feature-2
                      :enabled      false
-                     :type         "boolean"
-                     :description  "This thing is disabled"
                      :state-value  nil}]
       (wmk/with-stubs
-        [{:req [:GET (str "/flags/?page=1")]
+        [{:req [:GET (str "/flags/")]
           :res [200 {:body (json/write-value-as-string [(utils/create-feature feature-1)
                                                         (utils/create-feature feature-2)])}]}]
         (let [client (flagsmith/new-client api-key {:base-uri wiremock-url})]
           (testing "has feature"
-            (is (= [feature-1 feature-2] (flagsmith/get-flags client)))))))))
+            (is (= (set [feature-1 feature-2]) (set (flagsmith/get-flags client))))))))))

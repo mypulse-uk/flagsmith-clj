@@ -1,35 +1,16 @@
 (ns flagsmith-clj.core
   (:import
     (com.flagsmith
-      Feature
-      Flag
-      FlagsmithClient)))
-
-
-(defn- add-base-uri-if-available
-  [^FlagsmithClient client
-   value]
-  (if value
-    (.withApiUrl client value)
-    client))
-
-
-(defn- enable-logging
-  [^FlagsmithClient client logging-enabled]
-  (if logging-enabled
-    (.enableLogging client)
-    client))
-
+      FlagsmithClient))
+  (:import
+    (com.flagsmith.models
+      Flag)))
 
 (defn- flag->map
   [^Flag flag]
-  (let [^Feature feature (.getFeature flag)]
-    {:feature-name (keyword (.getName feature))
-     :type         (.getType feature)
-     :description  (.getDescription feature)
-     :state-value  (.getStateValue flag)
-     :enabled      (.isEnabled flag)}))
-
+  {:feature-name (keyword (.getFeatureName flag))
+   :state-value  (.getValue flag)
+   :enabled      (.getEnabled flag)})
 
 (defn new-client
   "Creates a new flagsmith client using the given api-key"
@@ -37,21 +18,25 @@
    (new-client api-key {}))
   ([api-key options]
    (let [{:keys [base-uri logging-enabled]} options]
-     (->
+     (cond->
        (FlagsmithClient/newBuilder)
-       (.setApiKey api-key)
-       (add-base-uri-if-available base-uri)
-       (enable-logging logging-enabled)
-       (.build)))))
+       :always (.setApiKey api-key)
+       :always (.withApiUrl base-uri)
+       logging-enabled (.enableLogging)
+       :always (.build)))))
 
 
 (defn get-flags
   "Retrieves list of all flags"
   [^FlagsmithClient client]
-  (map flag->map (.getFeatureFlags client)))
+  (into [] (map flag->map (.getAllFlags (.getEnvironmentFlags client)))))
 
 
 (defn has-feature
   "Retrieves value of a given feature"
   [^FlagsmithClient client feature]
-  (.hasFeatureFlag client (name feature)))
+  (let [flags (.getEnvironmentFlags client)]
+    (try
+      (.isFeatureEnabled flags (name feature))
+      (catch Exception _
+        false))))
