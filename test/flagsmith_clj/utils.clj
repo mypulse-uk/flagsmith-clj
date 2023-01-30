@@ -4,13 +4,9 @@
 
 
 (defn create-feature
-  [{:keys [feature-name enabled type description state-value]
+  [{:keys [feature-name enabled state-value]
     :or   {feature-name :some-feature
-           enabled      true
-           type         "boolean"
-           description  ""}}]
-  {:feature             {:name        (name feature-name)
-                         :type        type
-                         :description description}
+           enabled      true}}]
+  {:feature             {:name        (name feature-name)}
    :feature_state_value state-value
    :enabled             enabled})
