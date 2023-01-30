@@ -25,7 +25,7 @@
 
     (testing "generates a new client with options"
       (is (= FlagsmithClient
-             (type (flagsmith/new-client api-key {:base-uri        wiremock-url
+             (type (flagsmith/new-client api-key {:api-url        wiremock-url
                                                   :logging-enabled true}))))))
 
   (deftest has-feature
@@ -34,7 +34,7 @@
         :res [200 {:body (json/write-value-as-string [(utils/create-feature
                                                         {:feature-name :existing-feature
                                                          :enabled      true})])}]}]
-      (let [client (flagsmith/new-client api-key {:base-uri wiremock-url})]
+      (let [client (flagsmith/new-client api-key {:api-url wiremock-url})]
         (testing "does not have feature"
           (is (false? (flagsmith/has-feature client :missing-feature))))
 
@@ -57,6 +57,6 @@
         [{:req [:GET (str "/flags/")]
           :res [200 {:body (json/write-value-as-string [(utils/create-feature feature-1)
                                                         (utils/create-feature feature-2)])}]}]
-        (let [client (flagsmith/new-client api-key {:base-uri wiremock-url})]
+        (let [client (flagsmith/new-client api-key {:api-url wiremock-url})]
           (testing "has feature"
             (is (= (set [feature-1 feature-2]) (set (flagsmith/get-flags client))))))))))

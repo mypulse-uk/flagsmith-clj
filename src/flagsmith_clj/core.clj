@@ -15,11 +15,11 @@
   ([api-key]
    (new-client api-key {}))
   ([api-key options]
-   (let [{:keys [base-uri logging-enabled]} options]
+   (let [{:keys [api-url logging-enabled]} options]
      (cond->
        (FlagsmithClient/newBuilder)
        :always (.setApiKey api-key)
-       :always (.withApiUrl base-uri)
+       :always (.withApiUrl api-url)
        logging-enabled (.enableLogging)
        :always (.withCache (-> (FlagsmithCacheConfig/newBuilder)
                                (.enableEnvLevelCaching "flagsmith-cache-key")
