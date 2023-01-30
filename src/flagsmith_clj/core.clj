@@ -1,10 +1,8 @@
 (ns flagsmith-clj.core
   (:import
-    (com.flagsmith
-      FlagsmithClient))
-  (:import
-    (com.flagsmith.models
-      Flag)))
+    (com.flagsmith FlagsmithClient)
+    (com.flagsmith.config FlagsmithCacheConfig)
+    (com.flagsmith.models Flag)))
 
 (defn- flag->map
   [^Flag flag]
@@ -23,14 +21,15 @@
        :always (.setApiKey api-key)
        :always (.withApiUrl base-uri)
        logging-enabled (.enableLogging)
+       :always (.withCache (-> (FlagsmithCacheConfig/newBuilder)
+                               (.enableEnvLevelCaching "flagsmith-cache-key")
+                               (.build)))
        :always (.build)))))
-
 
 (defn get-flags
   "Retrieves list of all flags"
   [^FlagsmithClient client]
   (into [] (map flag->map (.getAllFlags (.getEnvironmentFlags client)))))
-
 
 (defn has-feature
   "Retrieves value of a given feature"

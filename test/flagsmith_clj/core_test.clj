@@ -1,7 +1,7 @@
 (ns flagsmith-clj.core-test
   (:require
     [clj-wiremock.core :as wmk]
-    [clojure.test :refer :all]
+    [clojure.test :refer [deftest is testing use-fixtures]]
     [flagsmith-clj.core :as flagsmith]
     [flagsmith-clj.utils :as utils]
     [freeport.core :refer [get-free-port!]]
@@ -35,11 +35,16 @@
                                                         {:feature-name :existing-feature
                                                          :enabled      true})])}]}]
       (let [client (flagsmith/new-client api-key {:base-uri wiremock-url})]
+        (testing "does not have feature"
+          (is (false? (flagsmith/has-feature client :missing-feature))))
+
         (testing "has feature"
           (is (true? (flagsmith/has-feature client :existing-feature))))
 
-        (testing "does not have feature"
-          (is (false? (flagsmith/has-feature client :missing-feature)))))))
+        (testing "flags are cached to avoid additional network calls"
+          (let [_ (flagsmith/has-feature client :existing-feature)
+                journal (wmk/request-journal)]
+            (is (= (count journal) 1)))))))
 
   (deftest get-flags
     (let [feature-1 {:feature-name :feature-1
