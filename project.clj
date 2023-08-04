@@ -1,13 +1,44 @@
-(defproject flagsmith-clj "0.0.5"
+(def version
+  (or (System/getenv "VERSION")
+      "0.0.6"))
+
+(defproject flagsmith-clj version
   :description "A Clojure wrapper around the Flagsmith Java SDK"
-  :url "https://github.com/Global-Online-Health/flagsmith-clj"
-  :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
-            :url  "https://www.eclipse.org/legal/epl-2.0/"}
-  :dependencies [[org.clojure/clojure "1.10.1"]
+  :url "https://github.com/mypulse-uk/flagsmith-clj"
+  :license {:name "The MIT License"
+            :url "https://opensource.org/licenses/MIT"}
+  :dependencies [[org.clojure/clojure "1.11.1"]
                  [com.flagsmith/flagsmith-java-client "5.1.2"]]
-  :profiles {:dev {:dependencies
-                      [[kelveden/clj-wiremock "1.8.0"]
-                       [freeport "1.0.0"]
-                       [metosin/jsonista "0.3.7"]]
-                   :source-paths ["dev"]}}
-  :repl-options {:init-ns flagsmith-clj.core})
+
+  :plugins [[lein-cloverage "1.2.3"]
+            [lein-shell "0.5.0"]
+            [lein-ancient "0.7.0"]
+            [lein-changelog "0.3.2"]
+            [lein-eftest "0.5.9"]
+            [lein-codox "0.10.8"]
+            [lein-kibit "0.1.8"]
+            [lein-bikeshed "0.5.2"]]
+
+  :profiles
+  {:shared {:dependencies
+            [[org.clojure/clojure "1.11.1"]
+             [eftest "0.5.9"]]}
+   :dev [:shared {:source-paths ["dev"]
+                  :eftest {:multithread? false}}]
+   :test [:shared {:eftest {:multithread? false}}]
+
+   :release
+   {:release-tasks
+    [["deploy"]]}}
+
+  :target-path "target/%s/"
+
+  :bikeshed {:max-line-length 120}
+
+  :repl-options {:init-ns flagsmith-clj.core}
+
+  :deploy-repositories
+  {"releases" {:url "https://repo.clojars.org"
+               :username :env/clojars_deploy_username
+               :password :env/clojars_deploy_token
+               :sign-releases false}})

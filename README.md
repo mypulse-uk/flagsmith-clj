@@ -2,9 +2,18 @@
 
 A Clojure wrapper around the Flagsmith Java SDK
 
+## Examples
+
+```clojure
+(let [client (flagsmith/new-client api-key {:api-url api-url})]
+  (flagsmith/get-flags client))
+```
+
+You can also see the test directory for more examples.
+
 ## License
 
-Copyright © 2021 FIXME
+Copyright © 2023 MyPulse ltd
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
