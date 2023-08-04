@@ -2,7 +2,7 @@
   (or (System/getenv "VERSION")
       "0.0.6"))
 
-(defproject flagsmith-clj version
+(defproject ai.mypulse/flagsmith-clj version
   :description "A Clojure wrapper around the Flagsmith Java SDK"
   :url "https://github.com/mypulse-uk/flagsmith-clj"
   :license {:name "The MIT License"
