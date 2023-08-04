@@ -201,7 +201,7 @@ end
 
 namespace :ci do
   RakeFly.define_project_tasks(
-    pipeline: 'library-template',
+    pipeline: 'flagsmith-clj',
     argument_names: [:concourse_url],
     backend: RakeFly::Tasks::Authentication::Login::FlyBackend
   ) do |t, args|

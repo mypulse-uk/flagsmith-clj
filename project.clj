@@ -20,12 +20,13 @@
             [lein-bikeshed "0.5.2"]]
 
   :profiles
-  {:shared {:dependencies
-            [[org.clojure/clojure "1.11.1"]
-             [eftest "0.5.9"]]}
-   :dev [:shared {:source-paths ["dev"]
-                  :eftest {:multithread? false}}]
-   :test [:shared {:eftest {:multithread? false}}]
+  {:shared {:dependencies [[kelveden/clj-wiremock "1.8.0"]
+                           [freeport "1.0.0"]
+                           [metosin/jsonista "0.3.7"]
+                           [eftest "0.5.9"]]
+            :eftest {:multithread? false}}
+   :dev    [:shared]
+   :test [:shared]
 
    :release
    {:release-tasks
