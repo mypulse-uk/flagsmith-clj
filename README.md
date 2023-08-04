@@ -4,6 +4,10 @@ A Clojure wrapper around the Flagsmith Java SDK
 
 ## Examples
 
+Install via clojars:
+
+[![Clojars Project](https://img.shields.io/clojars/v/ai.mypulse/flagsmith-clj.svg)](https://clojars.org/ai.mypulse/flagsmith-clj)
+
 ```clojure
 (let [client (flagsmith/new-client api-key {:api-url api-url})]
   (flagsmith/get-flags client))
