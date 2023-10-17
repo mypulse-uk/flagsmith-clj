@@ -1,6 +1,6 @@
 (def version
   (or (System/getenv "VERSION")
-      "0.0.6"))
+      "0.0.8"))
 
 (defproject ai.mypulse/flagsmith-clj version
   :description "A Clojure wrapper around the Flagsmith Java SDK"
@@ -8,7 +8,7 @@
   :license {:name "The MIT License"
             :url "https://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.11.1"]
-                 [com.flagsmith/flagsmith-java-client "5.1.2"]]
+                 [com.flagsmith/flagsmith-java-client "7.1.0"]]
 
   :plugins [[lein-cloverage "1.2.3"]
             [lein-shell "0.5.0"]
